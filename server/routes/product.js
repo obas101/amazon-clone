@@ -1,14 +1,16 @@
 const router = require("express").Router();
 const Product = require("../models/product");
 
+const upload = require("../middleware/uploadPhoto");
+
 //post request - creates a new product
-router.post("/products", async (req, res) => {
+router.post("/products", upload.single("photo"), async (req, res) => {
   try {
     let product = new Product();
     product.title = req.body.title;
     product.description = req.body.description;
     product.photo = req.body.photo;
-    product.stockQuantity.req.body.stockQuantity;
+    product.stockQuantity = req.body.stockQuantity;
 
     await product.save();
 
@@ -57,26 +59,27 @@ router.get("/products/:id", async (req, res) => {
 });
 
 //put request - update a single product
-router.put("/products/:id", async (req, res) => {
+router.put("/products/:id", upload.single("photo"), async (req, res) => {
   try {
     let product = await Product.findOneAndUpdate(
-      { _id: req.params.id }, 
+      { _id: req.params.id },
       {
-      $set: {
-        title: req.body.title,
-        price: req.body.price,
-        category: req.body.categoryId,
-        photo: req.file.location,
-        description: req.body.description,
-        owner: req.body.ownerID
+        $set: {
+          title: req.body.title,
+          price: req.body.price,
+          category: req.body.categoryId,
+          photo: req.file.location,
+          description: req.body.description,
+          owner: req.body.ownerID,
+        },
       },
-    },
-    {
-      upsert: true
-    });
+      {
+        upsert: true,
+      }
+    );
     res.json({
       success: true,
-      product: product,
+      updatedProduct: product,
     });
   } catch (err) {
     res.status(500).json({
@@ -87,5 +90,21 @@ router.put("/products/:id", async (req, res) => {
 });
 
 //delete request - deletea a single product
+router.delete("/products/:id", async (req, res) => {
+  try {
+    let deletedProduct = await Product.findOneAndDelete({ _id: req.params.id });
+    if (deletedProduct) {
+      res.json({
+        success: true,
+        message: "successfully deleted a product",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
 
 module.exports = router;
