@@ -3453,7 +3453,7 @@ ul.s-result-list li.s-result-item .s-item-container {
 .mainResults img{
     width: 216px;
 }
-.a-row a{
+.a-row{
     text-decoration: none !important;
 }
 .s-text-condensed .a-size-small {
