@@ -11,7 +11,7 @@
               <!--Category Dropdown-->
               <div class="a-spacing-top-medium">
                 <label>Category</label>
-                <select class="a-select-option">
+                <select class="a-select-option" v-model="categoryID">
                   <option
                     v-for="category in categories"
                     value="category._id"
@@ -24,7 +24,7 @@
               <!--Owner Dropdown-->
               <div class="a-spacing-top-medium">
                 <label>Owner</label>
-                <select class="a-select-option">
+                <select class="a-select-option" v-model="ownerID">
                   <option
                     v-for="owner in owners"
                     value="category._id"
@@ -34,22 +34,44 @@
                 </select>
               </div>
 
-              <!--Title Dropdown-->
+              <!--Title-->
               <div class="a-spacing-top-medium">
                 <label>Title</label>
-                <input type="text" class="a-input-text" style="width: 100%" />
+                <input
+                  v-model="title"
+                  type="text"
+                  class="a-input-text"
+                  style="width: 100%"
+                />
               </div>
 
-              <!--Price Dropdown-->
+              <!--Price -->
               <div class="a-spacing-top-medium">
                 <label>Price</label>
-                <input type="text" class="a-input-text" style="width: 100%" />
+                <input
+                  v-model="price"
+                  type="text"
+                  class="a-input-text"
+                  style="width: 100%"
+                />
+              </div>
+
+              <!--stockQuantity -->
+              <div class="a-spacing-top-medium">
+                <label>Stock Quantity</label>
+                <input
+                  v-model="stockQuantity"
+                  type="text"
+                  class="a-input-text"
+                  style="width: 100%"
+                />
               </div>
 
               <!--Descripion-->
               <div class="a-spacing-top-medium">
                 <label>Description</label>
                 <textarea
+                  v-model="description"
                   placeholder="Provide a detailed description of product..."
                   style="width: 100%"
                 ></textarea>
@@ -61,7 +83,8 @@
                 <div class="a-row">
                   <label class="choosefile-button">
                     <i class="fal fa-plus"></i>
-                    <p style="margin-top: -70px">Name of the</p>
+                    <input type="file" @change="onFileSelected" />
+                    <p style="margin-top: -70px">{{ fileName }}</p>
                   </label>
                 </div>
               </div>
@@ -71,7 +94,7 @@
               <div class="a-spacing-top-large">
                 <span class="a-button-register">
                   <span class="a-button inner">
-                    <span class="a-button-text">
+                    <span class="a-button-text" @click="onAddProduct">
                       Add Product
                     </span>
                   </span>
@@ -104,6 +127,41 @@ export default {
       };
     } catch (error) {
       console.log(error);
+    }
+  },
+  data() {
+    return {
+      categoryID: null,
+      ownerID: null,
+      title: "",
+      price: 0,
+      description: "",
+      selectedFile: null,
+      fileName: "",
+      stockQuantity: 1
+    };
+  },
+
+  methods: {
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0];
+      console.log(this.selectedFile);
+      this.fileName = event.target.files[0].name;
+    },
+
+    async onAddProduct() {
+      let data = new FormData();
+      data.append("title", this.title);
+      data.append("description", this.description);
+      data.append("stockQuantity", this.stockQuantity);
+      data.append("price", this.price);
+      data.append("photo", this.selectedFile, this.selectedFile.name);
+      data.append("categoryID", this.categoryID);
+      data.append("ownerID", this.ownerID);
+
+      let result = await $$axios.$post("http://localhost:3000/api/products", data);
+      
+      this.$router.push("/");
     }
   }
 };

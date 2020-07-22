@@ -11,6 +11,9 @@ router.post("/products", upload.single("photo"), async (req, res) => {
     product.description = req.body.description;
     product.photo = req.file.location;
     product.stockQuantity = req.body.stockQuantity;
+    product.ownerID = req.body.ownerID;
+    product.categoryID = req.body.categoryID;
+    product.price = req.body.price;
 
     await product.save();
 
@@ -67,10 +70,11 @@ router.put("/products/:id", upload.single("photo"), async (req, res) => {
         $set: {
           title: req.body.title,
           price: req.body.price,
-          category: req.body.categoryId,
+          category: req.body.categoryID,
           photo: req.file.location,
           description: req.body.description,
           owner: req.body.ownerID,
+          stockQuantity: req.body.stockQuantity
         },
       },
       {
