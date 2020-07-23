@@ -159,8 +159,11 @@ export default {
       data.append("categoryID", this.categoryID);
       data.append("ownerID", this.ownerID);
 
-      let result = await $$axios.$post("http://localhost:3000/api/products", data);
-      
+      let result = await this.$axios.$post(
+        "http://localhost:3000/api/products",
+        data
+      );
+
       this.$router.push("/");
     }
   }

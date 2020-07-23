@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const Product = require("../models/product");
 
-const upload = require("../middleware/uploadPhoto");
+const upload = require("../middlewares/uploadPhoto");
 
 //post request - creates a new product
 router.post("/products", upload.single("photo"), async (req, res) => {
