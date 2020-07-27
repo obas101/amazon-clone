@@ -134,11 +134,11 @@ export default {
       categoryID: null,
       ownerID: null,
       title: "",
-      price: 0,
+      price: "",
       description: "",
       selectedFile: null,
       fileName: "",
-      stockQuantity: 1
+      stockQuantity: ""
     };
   },
 

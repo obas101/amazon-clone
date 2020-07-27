@@ -93,7 +93,7 @@ export default {
     },
     async onAddOwner() {
       try {
-        let data = new formData();
+        let data = new FormData();
         data.append("name", this.name);
         data.append("about", this.about);
         data.append("photo", this.selectedFile, this.selectedFile.name);

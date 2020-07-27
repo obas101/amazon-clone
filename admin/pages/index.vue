@@ -8,13 +8,17 @@
             All Products
           </h1>
           <div class="a-spacing-large"></div>
+
           <!-- buttons -->
-          <a href="#" class="a-button-buy-again">Add a New Product</a>
-          <a href="#" class="a-button-history margin-right-10"
-            >Add a New Category</a
+          <nuxt-link to="/products" class="a-button-buy-again"
+            >Add a New Product</nuxt-link
           >
-          <a href="#" class="a-button-history margin-right-10"
-            >Add a New Owner</a
+          <nuxt-link to="/category" class="a-button-history margin-right-10"
+            >Add a New Category</nuxt-link
+          >
+          <nuxt-link to="/owner" class="a-button-history margin-right-10"
+            >Add a New Owner</nuxt-link
+          >
           >
           <!-- listing page -->
         </div>
@@ -25,7 +29,11 @@
 
     <div class="container-fluid browsing-history">
       <div class="row">
-        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6 br bb" v-for="product in products" :key="product._id">
+        <div
+          v-for="(product, index) in products"
+          :key="product._id"
+          class="col-xl-2 col-lg-2 col-md-3 col-sm-6 col-6 br bb"
+        >
           <div class="history-box">
             <!-- Product image -->
 
@@ -36,7 +44,7 @@
 
             <div class="a-spacing-top-base asin-title">
               <span class="a-text-normal">
-                <div class="p13n-sc-truncated">{{product.title}}</div>
+                <div class="p13n-sc-truncated">{{ product.title }}</div>
               </span>
             </div>
             <!-- Product rating -->
@@ -58,13 +66,22 @@
             <!-- Product price -->
             <div class="a-row">
               <span class="a-size-base a-color-price">
-                <span class="p13n-sc-price">&#8358;{{product.price}}</span>
+                <span class="p13n-sc-price">&#8358;{{ product.price }}</span>
               </span>
             </div>
             <!-- Product button-->
             <div class="a-row">
-              <a href="#" class="a-button-history margin-right-10">Update</a>
-              <a href="#" class="a-button-history margin-right-10">Delete</a>
+              <nuxt-link
+                :to="`/products/${product._id}`"
+                class="a-button-history margin-right-10"
+                >Update</nuxt-link
+              >
+              <a
+                href="#"
+                class="a-button-history margin-right-10"
+                @click="onDeleteProduct(product._id, index)"
+                >Delete</a
+              >
             </div>
           </div>
         </div>
@@ -77,7 +94,7 @@
 export default {
   //asyncData helps to fetch data while nuxt is still loading
 
- async asyncData({ $axios }) {
+  async asyncData({ $axios }) {
     try {
       let response = await $axios.$get("http://localhost:3000/api/products");
       return {
@@ -85,6 +102,20 @@ export default {
       };
     } catch (error) {
       console.log(error);
+    }
+  },
+  methods: {
+    async onDeleteProduct(id, index) {
+      try {
+        let response = await this.$axios.$delete(
+          `http://localhost:3000/api/products/${id}`
+        );
+        if (response.status) {
+          this.products.splice(index, 1);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 };
