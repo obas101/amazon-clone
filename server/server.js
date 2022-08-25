@@ -12,13 +12,13 @@ const app = express();
 dotenv.config();
 
 Mongoose.connect(
-  process.env.DATABASE,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  (err) => {
-    if (err) {
-      console.log(err);
-    } else console.log("database connected successfully");
-  }
+	process.env.DATABASE,
+	{ useNewUrlParser: true, useUnifiedTopology: true },
+	(err) => {
+		if (err) {
+			console.log(err);
+		} else console.log("database connected successfully");
+	},
 );
 
 //middlewares
@@ -37,9 +37,9 @@ app.use("/api", categoryRoutes);
 app.use("/api", ownerRoutes);
 
 app.listen(3000, (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("listening on port", 3000);
-  }
+	if (err) {
+		console.log(err);
+	} else {
+		console.log("listening on port", 3000);
+	}
 });
