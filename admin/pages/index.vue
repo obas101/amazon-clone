@@ -98,7 +98,7 @@ export default {
     try {
       let response = await $axios.$get("http://localhost:3000/api/products");
       return {
-        products: response.products
+        products: response.products,
       };
     } catch (error) {
       console.log(error);
@@ -116,8 +116,8 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style></style>

@@ -5,7 +5,7 @@ const Mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 
-const User = require("./models/user");
+// const User = require("./models/user");
 
 const app = express();
 
@@ -13,7 +13,7 @@ dotenv.config();
 
 Mongoose.connect(
 	process.env.DATABASE,
-	{ useNewUrlParser: true, useUnifiedTopology: true },
+	{ useNewUrlParser: true, useUnifiedTopology: true, createIndexes: true },
 	(err) => {
 		if (err) {
 			console.log(err);
