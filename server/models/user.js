@@ -27,4 +27,10 @@ UserSchema.pre("save", function (next) {
 	}
 });
 
+//login method - password comparison
+UserSchema.methods.comparePassword = function (password, next) {
+	let user = this;
+	return bcrypt.compareSync(password, user.password);
+};
+
 module.exports = mongoose.model("User", UserSchema);
