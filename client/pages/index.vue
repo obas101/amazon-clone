@@ -7,14 +7,19 @@
         </div>
         <!-- main content -->
 
-        <div class="col-xl-10 col-lg-9 md-8 col-sm-8"></div>
+        <div class="col-xl-10 col-lg-9 md-8 col-sm-8">
+          <FeaturedProduct />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import FeaturedProduct from "~/components/FeaturedProduct.vue";
+export default {
+  component: { FeaturedProduct },
+};
 </script>
 
 <style></style>``
