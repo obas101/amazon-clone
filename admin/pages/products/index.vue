@@ -13,11 +13,12 @@
                 <label>Category</label>
                 <select class="a-select-option" v-model="categoryID">
                   <option
-                    v-for="category in categories"
-                    value="category._id"
-                    :key="category._id"
-                    >{{ category.type }}</option
+                    v-for="(category, index) in categories"
+                    :value="category._id"
+                    :key="index"
                   >
+                    {{ category.type }}
+                  </option>
                 </select>
               </div>
 
@@ -26,11 +27,12 @@
                 <label>Owner</label>
                 <select class="a-select-option" v-model="ownerID">
                   <option
-                    v-for="owner in owners"
-                    value="category._id"
-                    :key="owner._id"
-                    >{{ owner.name }}</option
+                    v-for="(owner, index) in owners"
+                    :value="owner._id"
+                    :key="index"
                   >
+                    {{ owner.name }}
+                  </option>
                 </select>
               </div>
 
@@ -118,12 +120,12 @@ export default {
 
       const [catResponse, ownResponse] = await Promise.all([
         categories,
-        owners
+        owners,
       ]);
 
       return {
         categories: catResponse.categories,
-        owners: ownResponse.owners
+        owners: ownResponse.owners,
       };
     } catch (error) {
       console.log(error);
@@ -138,7 +140,7 @@ export default {
       description: "",
       selectedFile: null,
       fileName: "",
-      stockQuantity: ""
+      stockQuantity: "",
     };
   },
 
@@ -165,7 +167,7 @@ export default {
       );
 
       this.$router.push("/");
-    }
-  }
+    },
+  },
 };
 </script>

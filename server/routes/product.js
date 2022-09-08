@@ -16,6 +16,7 @@ router.post("/products", upload.single("photo"), async (req, res) => {
 		product.price = req.body.price;
 
 		await product.save();
+		console.log(req.body);
 
 		res.json({
 			status: true,
