@@ -12,7 +12,11 @@
 
           <div class="mainResults">
             <ul class="s-result-list">
-              <li class="s-result-item celwidget">
+              <li
+                class="s-result-item celwidget"
+                v-for="product in products"
+                :key="product._id"
+              >
                 <div class="s-item-container">
                   <!-- Best seller -->
                   <div class="a-spacing-micro">
@@ -23,7 +27,7 @@
                       <!-- image -->
                       <div class="col-sm-3 text-center">
                         <a href="#"
-                          ><img src="/img/fifa23-1.jpg" class="img-fluid"
+                          ><img :src="product.photo" class="img-fluid"
                         /></a>
                       </div>
                       <div class="col-sm-9">
@@ -31,7 +35,7 @@
                           <!-- title and date -->
                           <a href="#" class="a-link-normal"
                             ><h2 class="a-size-medium">
-                              Fifa 2023
+                              {{ product.title }}
                               <span class="a-letter-space"></span>
                               <span class="a-letter-space"></span>
                               <span class="a-size-small a-color-secondary"
@@ -45,9 +49,11 @@
                         <div class="a-row a-spacing-small">
                           <span class="a-size-small a-color-secondary">by</span>
                           <span class="a-size-small a-color-secondary">
-                            <a class="a-link-normal a-text-normal" href="#"
-                              >EA Sport</a
-                            >
+                            <a
+                              class="a-link-normal a-text-normal"
+                              href="#"
+                              >{{
+                            }}</a>
                           </span>
                         </div>
 
@@ -66,11 +72,15 @@
                             <!-- Price -->
                             <div class="a-row a-spacing-none">
                               <a href="#" class="a-link-normal a-text-normal">
-                                <span class="a-offscreen">$99</span>
+                                <span class="a-offscreen"
+                                  >${{ product.price }}</span
+                                >
                                 <span class="a-color-base sx-zero-spacing">
                                   <span class="sx-price sx-price-large">
                                     <sup class="sx-price-currency">$</sup>
-                                    <span class="sx-price-whole">99</span>
+                                    <span class="sx-price-whole">{{
+                                      product.price
+                                    }}</span>
                                     <sup class="sx-price-fractional">00</sup>
                                   </span>
                                 </span>
@@ -129,6 +139,18 @@
 import FeaturedProduct from "~/components/FeaturedProduct.vue";
 export default {
   component: { FeaturedProduct },
+
+  async asyncData({ $axios }) {
+    try {
+      let response = await $axios.$get("/api/products");
+      console.log(response);
+      return {
+        products: response.products,
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };
 </script>
 
